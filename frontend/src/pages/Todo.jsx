@@ -5,12 +5,16 @@ import * as yup from "yup";
 import { useEffect } from "react";
 
 export default function Todo() {
+  // state variables
   const [todos, settodos] = useState([]);
   const [rid, setrid] = useState();
   const [uid, setuid] = useState();
   const [mtask, setmtask] = useState();
   const [mdesc, setmdesc] = useState();
   const [mpriority, setmpriority] = useState();
+  // state variables end
+
+  // setting up formik form validation method
   const formik = useFormik({
     initialValues: {
       task: "",
@@ -28,7 +32,9 @@ export default function Todo() {
       handleGet();
     },
   });
+  // done formik initial setup
 
+  // api calls with axios
   const handleGet = async () => {
     const { data } = await axios.get("http://localhost:5000/todo");
     settodos(data);
@@ -47,7 +53,9 @@ export default function Todo() {
     });
     handleGet();
   };
+  // api calls done
 
+  // useEffect
   useEffect(() => {
     handleGet();
   }, []);
@@ -57,6 +65,7 @@ export default function Todo() {
       <div className="container">
         <div className="row">
           <div className="col-sm-6 offset-sm-3">
+            {/* basic Note / Todo form with formik form validation */}
             <div className="card">
               <div className="card-header">Note / Todo</div>
               <form onSubmit={formik.handleSubmit}>
@@ -153,7 +162,9 @@ export default function Todo() {
                 </div>
               </form>
             </div>
+            {/* form validation end */}
 
+            {/* array map() method for printing the notes/todos on the screen */}
             {todos.map((item) => (
               <div>
                 <div className="card mt-4">
@@ -198,10 +209,12 @@ export default function Todo() {
                 </div>
               </div>
             ))}
+            {/* array map() method end */}
           </div>
         </div>
       </div>
 
+      {/* modal window for editing the note/todo */}
       <div className="modal fade" id="editModal">
         <div className="modal-dialog">
           <div className="modal-content">
@@ -280,7 +293,9 @@ export default function Todo() {
           </div>
         </div>
       </div>
+      {/* edit modal window end */}
 
+      {/* modal window for confirming to delete note/todo */}
       <div className="modal fade" id="deleteModal">
         <div className="modal-dialog">
           <div className="modal-content">
@@ -321,6 +336,7 @@ export default function Todo() {
           </div>
         </div>
       </div>
+      {/* delete modal window end */}
     </div>
   );
 }
